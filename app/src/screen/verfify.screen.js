@@ -66,7 +66,7 @@ class VerifyScreen extends Component {
               <TouchableOpacity
                 style={styles.viewButtonVerify}
                 activeOpacity={0.6}
-                onPress={this.onPressVerify}
+                onPress={() => this.onPressVerify(this.state.code)}
               >
                 <Text style={styles.textVerify}>Verify</Text>
               </TouchableOpacity>
@@ -78,16 +78,17 @@ class VerifyScreen extends Component {
   }
 
   onQRCode = code => {
-    this.setState({ code });
+    if (code) {
+      this.onPressVerify(code);
+    }
   };
 
-  onPressVerify = async () => {
-    const { code } = this.state;
+  onPressVerify = async code => {
     if (!code) {
       alert("Please enter your code or scan qrcode.");
     } else {
       this.props.showLoading();
-      await verify("00001", null)
+      await verify(code, null)
         .then(result => {
           this.props.hideLoading();
           this.props.navigation.navigate("CheckIn", { data: result.data });

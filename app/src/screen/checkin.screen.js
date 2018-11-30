@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Image
+} from "react-native";
 import { connect } from "react-redux";
 import { sizeFont, sizeWidth } from "../helpers/size.helper";
 import { checkIn } from "../api/api";
@@ -9,6 +16,7 @@ import {
   ACTION_SHOW_LOADING,
   ACTION_HIDE_LOADING
 } from "../actions/loading.action";
+import imageBack from "../../res/img/ic_left_arrow.png";
 
 const agent_id = "null";
 
@@ -32,34 +40,49 @@ class CheckInScreen extends Component {
     const pickup = _.get(data, "pickup");
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>{type}</Text>
-
-        <Text style={styles.textCode}>{order_number}</Text>
-        <Text style={styles.textPaid}>
-          {pay_status === "SUCCESS" ? "PAID" : "UNPAID"}
-        </Text>
-        <Text style={[styles.textName, { marginTop: sizeWidth(4) }]}>
-          {lastname}
-        </Text>
-        <Text style={[styles.textName]}>{address}</Text>
-
-        {pickup || return_pickup ? (
-          <Text style={[styles.textName]}>{`${pickup} ${return_pickup}`}</Text>
-        ) : (
-          <View />
-        )}
-
-        <View style={{ flexDirection: "row" }}>
-          <Text style={[styles.textName]}>{birthdayFormat}</Text>
-        </View>
-
         <TouchableOpacity
-          style={styles.viewButtonChecIn}
-          activeOpacity={0.6}
-          onPress={this.onPressCheckIn}
+          style={styles.viewBack}
+          onPress={() => this.props.navigation.goBack()}
         >
-          <Text style={styles.textCheckIn}>CheckIn</Text>
+          <Image
+            resizeMode="contain"
+            source={imageBack}
+            style={styles.imageBack}
+          />
         </TouchableOpacity>
+
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.title}>{type}</Text>
+
+          <Text style={styles.textCode}>{order_number}</Text>
+          <Text style={styles.textPaid}>
+            {pay_status === "SUCCESS" ? "PAID" : "UNPAID"}
+          </Text>
+          <Text style={[styles.textName, { marginTop: sizeWidth(4) }]}>
+            {lastname}
+          </Text>
+          <Text style={[styles.textName]}>{address}</Text>
+
+          {pickup || return_pickup ? (
+            <Text
+              style={[styles.textName]}
+            >{`${pickup} ${return_pickup}`}</Text>
+          ) : (
+            <View />
+          )}
+
+          <View style={{ flexDirection: "row" }}>
+            <Text style={[styles.textName]}>{birthdayFormat}</Text>
+          </View>
+
+          <TouchableOpacity
+            style={styles.viewButtonChecIn}
+            activeOpacity={0.6}
+            onPress={this.onPressCheckIn}
+          >
+            <Text style={styles.textCheckIn}>CheckIn</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -87,7 +110,17 @@ class CheckInScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white", alignItems: "center" },
+  container: { flex: 1, backgroundColor: "white" },
+  viewBack: {
+    marginTop: sizeWidth(10),
+    marginLeft: sizeWidth(4),
+    width: sizeWidth(12)
+  },
+  imageBack: {
+    padding: sizeWidth(2),
+    width: sizeWidth(12),
+    height: sizeWidth(5)
+  },
   title: {
     fontSize: sizeFont(6),
     fontWeight: "bold",
