@@ -27,17 +27,17 @@ class CheckInScreen extends Component {
 
   render() {
     const data = this.props.navigation.getParam("data");
-    console.log(JSON.stringify(data));
     const type = _.get(data, "type");
-    const created_by_account = _.get(data, "created_by_account");
     const order_number = _.get(data, "order_number");
     const pay_status = _.get(data, "pay_status");
-    const lastname = _.get(created_by_account, "lastname");
-    const address = _.get(created_by_account, "address");
-    const birthday = _.get(created_by_account, "birthday");
-    const birthdayFormat = TimeHelper.formatDate(birthday, "DD-MM-YYYY");
     const return_pickup = _.get(data, "return_pickup");
     const pickup = _.get(data, "pickup");
+    const customer = _.get(data, "customer");
+    const firstname = _.get(customer, "firstname");
+    const lastname = _.get(customer, "lastname");
+    const birthday = _.get(customer, "birthday");
+    const birthdayFormat = TimeHelper.formatDate(birthday, "DD-MM-YYYY");
+    console.log(JSON.stringify(data));
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -55,23 +55,37 @@ class CheckInScreen extends Component {
           <Text style={styles.title}>{type}</Text>
 
           <Text style={styles.textCode}>{order_number}</Text>
+
           <Text style={styles.textPaid}>
             {pay_status === "SUCCESS" ? "PAID" : "UNPAID"}
           </Text>
+
           <Text style={[styles.textName, { marginTop: sizeWidth(4) }]}>
-            {lastname}
+            {`${firstname} ${lastname}`}
           </Text>
-          <Text style={[styles.textName]}>{address}</Text>
 
           {pickup || return_pickup ? (
-            <Text
-              style={[styles.textName]}
-            >{`${pickup} ${return_pickup}`}</Text>
+            <View
+              style={{
+                marginTop: sizeWidth(3),
+                paddingHorizontal: sizeWidth(10)
+              }}
+            >
+              <Text style={styles.textPickUp} numberOfLines={2}>
+                {pickup}
+              </Text>
+              <Text
+                style={[styles.textPickUp, { marginTop: sizeWidth(1) }]}
+                numberOfLines={2}
+              >
+                {return_pickup}
+              </Text>
+            </View>
           ) : (
             <View />
           )}
 
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", marginTop: sizeWidth(1.5) }}>
             <Text style={[styles.textName]}>{birthdayFormat}</Text>
           </View>
 
@@ -155,6 +169,10 @@ const styles = StyleSheet.create({
     fontSize: sizeFont(5),
     fontWeight: "bold",
     color: "white"
+  },
+  textPickUp: {
+    fontSize: sizeFont(6),
+    color: "black"
   }
 });
 

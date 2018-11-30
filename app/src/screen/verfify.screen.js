@@ -16,6 +16,7 @@ import {
   ACTION_SHOW_LOADING,
   ACTION_HIDE_LOADING
 } from "../actions/loading.action";
+import _ from "lodash";
 
 class VerifyScreen extends Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class VerifyScreen extends Component {
               <TouchableOpacity
                 style={styles.viewButtonVerify}
                 activeOpacity={0.6}
-                onPress={() => this.onPressVerify(this.state.code)}
+                onPress={() => this.onPressVerify()}
               >
                 <Text style={styles.textVerify}>Verify</Text>
               </TouchableOpacity>
@@ -77,13 +78,14 @@ class VerifyScreen extends Component {
     );
   }
 
-  onQRCode = code => {
-    if (code) {
-      this.onPressVerify(code);
+  onQRCode = qrcode => {
+    if (qrcode) {
+      this.onPressVerify(qrcode);
     }
   };
 
-  onPressVerify = async code => {
+  onPressVerify = async qrcode => {
+    const code = qrcode || this.state.code;
     if (!code) {
       alert("Please enter your code or scan qrcode.");
     } else {
@@ -91,7 +93,13 @@ class VerifyScreen extends Component {
       await verify(code, null)
         .then(result => {
           this.props.hideLoading();
-          this.props.navigation.navigate("CheckIn", { data: result.data });
+          const status = _.get(result, "status");
+          if (status === "ok") {
+            this.props.navigation.navigate("CheckIn", { data: result.data });
+          } else {
+            const error_description = _.get(result, "error_description");
+            alert(error_description);
+          }
         })
         .catch(error => {
           this.props.hideLoading();
