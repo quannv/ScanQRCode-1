@@ -35,9 +35,9 @@ class CheckInScreen extends Component {
     const customer = _.get(data, "customer");
     const firstname = _.get(customer, "firstname");
     const lastname = _.get(customer, "lastname");
-    const birthday = _.get(customer, "birthday");
-    const birthdayFormat = TimeHelper.formatDate(birthday, "DD-MM-YYYY");
-    console.log(JSON.stringify(data));
+    const start = _.get(data, "start");
+    const return_start = _.get(data, "return_start");
+    const return_route_id = _.get(data, "return_route_id");
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -64,30 +64,49 @@ class CheckInScreen extends Component {
             {`${firstname} ${lastname}`}
           </Text>
 
-          {pickup || return_pickup ? (
-            <View
-              style={{
-                marginTop: sizeWidth(3),
-                paddingHorizontal: sizeWidth(10)
-              }}
-            >
-              <Text style={styles.textPickUp} numberOfLines={2}>
-                {pickup}
-              </Text>
-              <Text
-                style={[styles.textPickUp, { marginTop: sizeWidth(1) }]}
-                numberOfLines={2}
-              >
-                {return_pickup}
-              </Text>
-            </View>
+          {start ? (
+            <Text
+              style={[styles.textName, { marginTop: sizeWidth(4) }]}
+            >{`Start: ${start}`}</Text>
           ) : (
             <View />
           )}
 
-          <View style={{ flexDirection: "row", marginTop: sizeWidth(1.5) }}>
-            <Text style={[styles.textName]}>{birthdayFormat}</Text>
-          </View>
+          {pickup ? (
+            <Text
+              style={[
+                styles.textPickUp,
+                { marginTop: sizeWidth(2), paddingHorizontal: sizeWidth(10) }
+              ]}
+              numberOfLines={2}
+            >
+              {pickup}
+            </Text>
+          ) : (
+            <View />
+          )}
+
+          {return_start && return_route_id ? (
+            <Text
+              style={[styles.textName, { marginTop: sizeWidth(2) }]}
+            >{`Return start: ${return_start}`}</Text>
+          ) : (
+            <View />
+          )}
+
+          {return_pickup && return_route_id ? (
+            <Text
+              style={[
+                styles.textPickUp,
+                { marginTop: sizeWidth(2), paddingHorizontal: sizeWidth(10) }
+              ]}
+              numberOfLines={2}
+            >
+              {return_pickup}
+            </Text>
+          ) : (
+            <View />
+          )}
 
           <TouchableOpacity
             style={styles.viewButtonChecIn}
@@ -172,6 +191,10 @@ const styles = StyleSheet.create({
   },
   textPickUp: {
     fontSize: sizeFont(6),
+    color: "black"
+  },
+  textTitle: {
+    fontSize: sizeFont(4),
     color: "black"
   }
 });
