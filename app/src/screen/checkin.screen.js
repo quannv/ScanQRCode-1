@@ -38,6 +38,7 @@ class CheckInScreen extends Component {
     const start = _.get(data, "start");
     const return_start = _.get(data, "return_start");
     const return_route_id = _.get(data, "return_route_id");
+    const checkin = _.get(data, "checkin");
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -111,9 +112,12 @@ class CheckInScreen extends Component {
           <TouchableOpacity
             style={styles.viewButtonChecIn}
             activeOpacity={0.6}
+            disabled={checkin === "1" ? true : false}
             onPress={this.onPressCheckIn}
           >
-            <Text style={styles.textCheckIn}>CheckIn</Text>
+            <Text style={styles.textCheckIn}>
+              {checkin === "1" ? "Already checkIn" : "CheckIn"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -128,7 +132,12 @@ class CheckInScreen extends Component {
     await checkIn(body)
       .then(result => {
         this.props.hideLoading();
-        alert("Checkin success");
+        Alert.alert(
+          "SUCCESS",
+          "Checkin success",
+          [{ text: "OK", onPress: () => this.props.navigation.goBack() }],
+          { cancelable: false }
+        );
       })
       .catch(error => {
         this.props.hideLoading();

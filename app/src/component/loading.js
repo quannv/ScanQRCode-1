@@ -9,7 +9,7 @@ class LoadingView extends PureComponent {
       const size = Platform.OS === "ios" ? "large" : sizeWidth(9);
       return (
         <View style={styles.Loading}>
-          <ActivityIndicator animating={true} size={size} color={"#FF970E"} />
+          <ActivityIndicator animating={true} size={size} color={"#6b76ff"} />
         </View>
       );
     }
