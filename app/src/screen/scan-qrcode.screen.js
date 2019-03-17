@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
-import QRCodeScanner from "react-native-qrcode-scanner";
+import QRCodeScanner from 'react-native-qrcode-scanner';
 import iconBack from "../../res/img/ic_left_arrow.png";
 import { sizeWidth } from "../helpers/size.helper";
 

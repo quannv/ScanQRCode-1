@@ -6,31 +6,46 @@ import {
   TouchableOpacity,
   TextInput,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Button
 } from "react-native";
-import { sizeFont, sizeWidth } from "../helpers/size.helper";
+import { sizeFont, sizeWidth, sizeHeight} from "../helpers/size.helper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect } from "react-redux";
-import { verify } from "../api/api";
+import { verify, getConfig} from "../api/api";
+import { PRIMARY_COLOR } from '../config/app.config'
+import Icon from 'react-native-vector-icons/FontAwesome5Pro'
 import {
   ACTION_SHOW_LOADING,
   ACTION_HIDE_LOADING
 } from "../actions/loading.action";
 import _ from "lodash";
-
+import Header from '../component/headerNav'
+import {lang} from '../language/index'
 class VerifyScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { code: null };
+    this.state = { code: null, currency : '$' };
   }
-
+  
+  componentWillMount () {
+   //AsyncStorageHelper._retrieveData('language').then(a=>{console.log(a);});
+   
+  }
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
+          <Header 
+            iconLeft = 'bars'
+            actionLeft = {()=> {this.props.navigation.openDrawer()}}
+          />
           <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
             <View style={{ alignItems: "center" }}>
-              <Text style={styles.title}>TBUS</Text>
+              <View style={styles.header}>
+                <Icon name='steering-wheel' size={sizeFont(8)} color={PRIMARY_COLOR}></Icon>
+                <Text style={styles.title}>TBUS Driver</Text>
+              </View>
 
               <TouchableOpacity
                 style={styles.viewButtonScanQrcode}
@@ -41,10 +56,10 @@ class VerifyScreen extends Component {
                   })
                 }
               >
-                <Text style={styles.textScanCode}>ScanQR Code</Text>
+                <Text style={styles.textScanCode}>{lang('verify.scan_qrcode')}</Text>
               </TouchableOpacity>
 
-              <Text style={styles.textOr}>Or</Text>
+              <Text style={styles.textOr}>{lang('verify.or')}</Text>
 
               <TouchableOpacity
                 style={styles.viewTiketNumber}
@@ -57,10 +72,11 @@ class VerifyScreen extends Component {
                   keyboardType="numeric"
                   autoCapitalize="none"
                   value={this.state.code}
-                  placeholder="#Enter ticket number"
+                  placeholder={lang('verify.enter_number_order')}
                   placeholderTextColor={"#7C7C7C"}
                   underlineColorAndroid="transparent"
                   onChangeText={text => this.setState({ code: text })}
+                  selectionColor={PRIMARY_COLOR}
                 />
               </TouchableOpacity>
 
@@ -69,7 +85,7 @@ class VerifyScreen extends Component {
                 activeOpacity={0.6}
                 onPress={() => this.onPressVerify()}
               >
-                <Text style={styles.textVerify}>Verify</Text>
+                <Text style={styles.textVerify}>{lang("verify.verify")}</Text>
               </TouchableOpacity>
             </View>
           </KeyboardAwareScrollView>
@@ -87,7 +103,7 @@ class VerifyScreen extends Component {
   onPressVerify = async qrcode => {
     const code = qrcode || this.state.code;
     if (!code) {
-      alert("Please enter your code or scan qrcode.");
+      alert(lang('alert.enter_code_or_scan'));
     } else {
       this.props.showLoading();
       await verify(code, null)
@@ -95,10 +111,10 @@ class VerifyScreen extends Component {
           this.props.hideLoading();
           const status = _.get(result, "status");
           if (status === "ok") {
+            console.log(_.get(result, 'data'));
             this.props.navigation.navigate("CheckIn", { data: result.data });
           } else {
-            const error_description = _.get(result, "error_description");
-            alert(error_description);
+            alert(lang('alert.invalid_order_number'));
           }
         })
         .catch(error => {
@@ -111,11 +127,15 @@ class VerifyScreen extends Component {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white", alignItems: "center" },
+  header : {
+    marginTop: sizeWidth(2),
+    alignItems: 'center'
+  },
   title: {
     fontSize: sizeFont(6),
     fontWeight: "bold",
-    color: "black",
-    marginTop: sizeWidth(10)
+    color: `${PRIMARY_COLOR}`,
+    marginTop: sizeWidth(2)
   },
   viewButtonScanQrcode: {
     marginTop: sizeWidth(15),
@@ -123,19 +143,19 @@ const styles = StyleSheet.create({
     height: sizeWidth(35),
     borderRadius: sizeWidth(3),
     borderWidth: sizeWidth(0.4),
-    borderColor: "black",
+    borderColor: `${PRIMARY_COLOR}`,
     alignItems: "center",
     justifyContent: "center"
   },
   textScanCode: {
     fontSize: sizeFont(4),
-    color: "black",
+    color: `${PRIMARY_COLOR}`,
     fontWeight: "bold"
   },
   textOr: {
     marginTop: sizeWidth(10),
     fontSize: sizeFont(7),
-    color: "black"
+    color: `${PRIMARY_COLOR}`
   },
   viewTiketNumber: {
     marginTop: sizeWidth(10),
@@ -143,7 +163,7 @@ const styles = StyleSheet.create({
     height: sizeWidth(15),
     borderRadius: sizeWidth(3),
     borderWidth: sizeWidth(0.4),
-    borderColor: "black",
+    borderColor: `${PRIMARY_COLOR}`,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -161,7 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: sizeWidth(3),
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#6b76ff"
+    backgroundColor: `${PRIMARY_COLOR}`
   },
   textVerify: {
     fontSize: sizeFont(5),

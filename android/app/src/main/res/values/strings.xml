@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">ScanQRCode</string>
+    <string name="app_name">TBUSDriver</string>
+    <string name="fb_app_id">629690207462181</string>
+    <string name="ak_client_token">f67e11b549ab9b891bf2d72143c3570a</string>
 </resources>

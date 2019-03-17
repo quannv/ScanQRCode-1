@@ -1,0 +1,30 @@
+ {
+    "verify" : {
+        "scan_qrcode" : "Scan QRCode",
+        "or" : "Or",
+        "enter_number_order" : "#Enter ticket number",
+        "verify" : "Verify"
+    },
+    "alert" : {
+        "enter_code_or_scan" : "Please enter your code or scan qrcode.",
+        "invalid_order_number" : "Order number is invalid" ,
+        "checkin_success" : "Checkin Success",
+        "success" : "Success"
+    },
+    "checkin" : {
+        "one_way" : "One way",
+        "round_trip" : "Round trip",
+        "screen" : "Checkin",
+        "type" : "Type",
+        "customer" : "Customer",
+        "start" : "Start",
+        "start_date": "Start Date",
+        "return" : "Return",
+        "return_date" : "Return Date",
+        "seat" : "Seat(s)",
+        "total_price" : "Total prices",
+        "checkin" : "Checkin",
+        "already_checkin" : "Already checkin"
+    }
+    
+}

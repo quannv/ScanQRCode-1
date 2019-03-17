@@ -1,0 +1,30 @@
+{
+    "verify" : {
+        "scan_qrcode" : "Flasher QRcode",
+        "or" : "Ou",
+        "enter_number_order" : "#Entrer le numéro du ticket",
+        "verify" : "Vérifier"
+    },
+    "alert" : {
+        "enter_code_or_scan" : "S'il vous plaît entrez votre code ou scan QRcode.",
+        "invalid_order_number" : "Le numéro de commande est invalide",
+        "checkin_success" : "Checkin Succès",
+        "success" : "Succès"
+    },
+    "checkin" : {
+        "one_way" : " Aller simple",
+        "round_trip" : "Aller-retour",
+        "screen" : "Checkin",
+        "type" : "Type",
+        "customer" : "Client",
+        "start" : "Départ",
+        "start_date": "Date de départ",
+        "return" : "Retour",
+        "return_date" : "Date d'arrivée",
+        "seat" : "Nombre de place(s)",
+        "total_price" : "Prix total",
+        "checkin" : "Vérifier",
+        "already_checkin" : "Déjà vérifié"
+    }
+    
+}

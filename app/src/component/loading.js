@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import { ActivityIndicator, StyleSheet, View, Platform } from "react-native";
 import { connect } from "react-redux";
 import { sizeWidth, sizeHeight } from "../helpers/size.helper";
+import {PRIMARY_COLOR} from '../config/app.config'
 
 class LoadingView extends PureComponent {
   render() {
@@ -9,7 +10,7 @@ class LoadingView extends PureComponent {
       const size = Platform.OS === "ios" ? "large" : sizeWidth(9);
       return (
         <View style={styles.Loading}>
-          <ActivityIndicator animating={true} size={size} color={"#6b76ff"} />
+          <ActivityIndicator animating={true} size={size} color={PRIMARY_COLOR} />
         </View>
       );
     }

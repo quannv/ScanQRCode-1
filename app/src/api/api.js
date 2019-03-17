@@ -11,3 +11,7 @@ export const verify = (orderNumber, agentId) => {
 export const checkIn = body => {
   return RequestHelper.post(appConfig.apiUrl + "rest/checkin", { ...body });
 };
+
+export const getConfig = () => {
+  return RequestHelper.get(appConfig.apiUrl+ "rest/config?agent_id=13",null);
+}
