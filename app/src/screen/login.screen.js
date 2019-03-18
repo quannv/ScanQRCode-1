@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
     View, Text, StyleSheet, TouchableOpacity
 } from 'react-native'
-import  RNAccountKit, {RNAccountKitNative} from "react-native-facebook-account-kit";
+import  RNAccountKit from "react-native-facebook-account-kit";
 import { PRIMARY_COLOR } from '../config/app.config'
 import AsyncstorageHelper from '../helpers/asyncstorage.helper'
 import { sizeFont, sizeHeight, sizeWidth } from '../helpers/size.helper'
@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5Pro'
 
 export default class LoginScreen extends Component {
     componentWillMount() {
-        RNAccountKitNative.login('phone');
+        RNAccountKit.loginWithPhone();
     }
     render() {
         try {
