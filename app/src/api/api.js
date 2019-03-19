@@ -15,11 +15,3 @@ export const checkIn = body => {
 export const getConfig = () => {
   return RequestHelper.get(appConfig.apiUrl+ "rest/config?agent_id=13",null);
 }
-
-export const check_token_account_kit = async (token) => {
-   let res = await RequestHelper.get('https://graph.accountkit.com/v1.0/me?access_token='+token);
-   if(res.phone !== undefined) {
-     return res.phone.number;
-   }
-   return null;
-}

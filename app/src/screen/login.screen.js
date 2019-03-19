@@ -2,26 +2,19 @@ import React, { Component } from 'react'
 import {
     View, Text, StyleSheet, TouchableOpacity
 } from 'react-native'
-import RNAccountKit from "react-native-facebook-account-kit";
+import  RNAccountKit from "react-native-facebook-account-kit";
 import { PRIMARY_COLOR } from '../config/app.config'
 import AsyncstorageHelper from '../helpers/asyncstorage.helper'
 import { sizeFont, sizeHeight, sizeWidth } from '../helpers/size.helper'
 import Icon from 'react-native-vector-icons/FontAwesome5Pro'
-import { check_token_account_kit } from '../api/api'
 
 export default class LoginScreen extends Component {
     componentWillMount() {
-        RNAccountKit.configure({
-            viewControllerMode: 'show',
-            responseType: 'code', // 'token' by default,
-            titleType: 'login',
-            initialPhoneCountryPrefix: '+33', // autodetected if none is provided
-            defaultCountry: 'FR'
-        })
+        RNAccountKit.loginWithPhone();
     }
     render() {
         try {
-
+           
         } catch (error) {
             console.log(error)
         }
@@ -32,24 +25,9 @@ export default class LoginScreen extends Component {
                 </View>
                 <View style={styles.button_container}>
                     <TouchableOpacity style={styles.button}
-                        onPress={() => {
-                            RNAccountKit.loginWithPhone().then(async (token) => {
-                                if (!token) {
-                                    alert('Error');
-                                    return;
-                                }
-                                else {
-                                    let phone = await check_token_account_kit(token.token);
-                                    if (phone === null) {
-                                        alert('Error');
-                                        return;
-                                    }
-                                    if (phone !== null) {
-                                        console.log(phone);
-                                        console.log('this is phone number');
-                                    }
-                                }
-                            });
+                        onPress={ () => {
+                            console.log('---------test---------');
+                            //this.loginWithPhone();
                         }}
                     >
                         <Icon name='mobile-alt' color={PRIMARY_COLOR} size={sizeFont(5)}></Icon>
