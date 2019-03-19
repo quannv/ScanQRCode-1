@@ -1,0 +1,29 @@
+PODS:
+  - AccountKit (4.35.0)
+  - React (0.11.0):
+    - React/Core (= 0.11.0)
+  - React/Core (0.11.0)
+  - RNAccountKit (1.0.0):
+    - AccountKit
+    - React
+
+DEPENDENCIES:
+  - RNAccountKit (from `../node_modules/react-native-facebook-account-kit/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AccountKit
+    - React
+
+EXTERNAL SOURCES:
+  RNAccountKit:
+    :path: "../node_modules/react-native-facebook-account-kit/ios"
+
+SPEC CHECKSUMS:
+  AccountKit: 870ccaf5d33facda9408783e28fbe68c5211e069
+  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+  RNAccountKit: f7af1721f61d2663cc2621c44d836c3898a2ea9b
+
+PODFILE CHECKSUM: 4614815433643dcb1b5c678b22c9f5a69e18c601
+
+COCOAPODS: 1.6.1
