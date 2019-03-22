@@ -46,7 +46,7 @@ export default class Profile extends Component {
                     <FlatList
                         data={menu}
                         renderItem={({ item }) => (<ItemMenu item={item} />)}
-                        keyExtractor={(item, index) => index}
+                    
                     >
 
                     </FlatList>
