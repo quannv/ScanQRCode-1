@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
-import  AppNavigator from "./navigators/app.navigator";
+import AppNavigator from "./navigators/app.navigator";
 import { setTopLevelNavigator } from "./actions/nav.action";
 import LoadingView from "./component/loading";
 import AsyncStorageHelper from './helpers/asyncstorage.helper'
@@ -8,25 +8,51 @@ import Chooselanguage from './screen/chooselanguage.screen'
 import { connect } from 'react-redux'
 import { changeLanguage } from './actions/language.action'
 import I18n from './language'
-import {PRIMARY_COLOR} from './config/app.config'
+import { PRIMARY_COLOR } from './config/app.config'
+import LoginScreen from './screen/login.screen'
+import { check_token } from './api/api'
+import { USER_STATUS, setUserStatus } from './actions/userStatus.action'
+import { showLoading, hideLoading } from './actions/loading.action'
 export class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: false,
     }
   }
   async componentWillMount() {
     //AsyncStorageHelper._removeData('language');
-    let lang = await AsyncStorageHelper._retrieveData('language').then(val=>val);
-    console.log(lang);
-    console.log('test AsyncStorageHelper as ----------');
+    this.props.showLoading();
+    let userData = await AsyncStorageHelper._retrieveData('userData').then(val => {
+      console.log(JSON.parse(val));
+    }
+    );
+    AsyncStorageHelper._retrieveData('token').then(async token => {
+      if (token !== null) {
+        let res = await check_token(token);
+        if (res.code == 1) {
+          AsyncStorageHelper._storeData('userData', JSON.stringify(res.user));
+          await this.props.setUserStatus(USER_STATUS.AUTHORIZED);
+          this.props.hideLoading();
+        }
+        else if (res.code == 0) {
+          AsyncStorageHelper._removeData('token');
+          AsyncStorageHelper._removeData('userData');
+        }
+        this.props.hideLoading();
+      }
+      this.props.hideLoading();
+
+    })
+
     AsyncStorageHelper._retrieveData('language').then(value => {
-      if(value !== null) {
+      if (value !== null) {
         this.props.changeLanguage(value);
       }
-      this.setState({isLoading : false})
-     })
+      this.setState({ isLoading: false })
+    })
+    this.props.hideLoading();
+
   }
   render() {
     console.log(this.props);
@@ -36,14 +62,17 @@ export class Main extends Component {
       <View style={styles.container}>
         {
           this.state.isLoading ?
-            <View style={{marginTop:20}}>
-                <ActivityIndicator size='large' color={PRIMARY_COLOR}/>
+            <View style={{ marginTop: 20 }}>
+              <ActivityIndicator size='large' color={PRIMARY_COLOR} />
             </View>
             :
-            language === null ?
-              <Chooselanguage />
+            this.props.userStatus === 'LOADING_STATUS' ?
+              <LoginScreen />
               :
-              <AppNavigator/>
+              language === null ?
+                <Chooselanguage />
+                :
+                <AppNavigator />
         }
         <LoadingView />
       </View>
@@ -59,12 +88,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    language: state.language.language
+    language: state.language.language,
+    userStatus: state.userStatus.userStatus,
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeLanguage: (lang) => dispatch(changeLanguage(lang))
+    changeLanguage: (lang) => dispatch(changeLanguage(lang)),
+    setUserStatus: (status) => dispatch(setUserStatus(status)),
+    showLoading: () => dispatch(showLoading()),
+    hideLoading: () => dispatch(hideLoading())
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Main) 

@@ -25,6 +25,13 @@
         "total_price" : "Prix total",
         "checkin" : "Vérifier",
         "already_checkin" : "Déjà vérifié"
+    },
+    "logout": {
+        "label_logout": "Déconnexion",
+        "alert_title_logout": "Déconnexion",
+        "alert_detail_logout": "Are you sure you want to logout?",
+        "NO": "No",
+        "YES": "OK",
+        "back": "Press button Back one more time to exit App"
     }
-    
 }

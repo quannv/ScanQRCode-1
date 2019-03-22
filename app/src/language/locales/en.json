@@ -25,6 +25,14 @@
         "total_price" : "Total prices",
         "checkin" : "Checkin",
         "already_checkin" : "Already checkin"
+    },
+    "logout": {
+        "label_logout": "Logout",
+        "alert_title_logout": "Logout",
+        "alert_detail_logout": "Are you sure you want to logout?",
+        "NO": "No",
+        "YES": "OK",
+        "back": "Press button Back one more time to exit App"
     }
     
 }
