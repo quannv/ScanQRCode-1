@@ -36,6 +36,11 @@ export default class Profile extends Component {
                 title: 'List Customer',
                 icon: 'list-alt',
                 screen : ''
+            },
+            {
+                title: 'List Customer',
+                icon: 'list-alt',
+                screen : ''
             }
         ]
         return (

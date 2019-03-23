@@ -3,10 +3,11 @@ package com.tbusdriver;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.wix.RNCameraKit.RNCameraKitPackage;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import io.underscope.react.fbak.RNAccountKitPackage;
+import com.wix.RNCameraKit.RNCameraKitPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -27,10 +28,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNCameraKitPackage(),
             new VectorIconsPackage(),
             new RNI18nPackage(),
-            new RNAccountKitPackage()
+            new RNAccountKitPackage(),
+            new RNCameraKitPackage()
       );
     }
 

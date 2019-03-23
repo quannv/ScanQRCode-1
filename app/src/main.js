@@ -27,25 +27,21 @@ export class Main extends Component {
       console.log(JSON.parse(val));
     }
     );
-    AsyncStorageHelper._retrieveData('token').then(async token => {
+    await AsyncStorageHelper._retrieveData('token').then(async token => {
       if (token !== null) {
         let res = await check_token(token);
         if (res.code == 1) {
           AsyncStorageHelper._storeData('userData', JSON.stringify(res.user));
           await this.props.setUserStatus(USER_STATUS.AUTHORIZED);
-          this.props.hideLoading();
         }
         else if (res.code == 0) {
           AsyncStorageHelper._removeData('token');
           AsyncStorageHelper._removeData('userData');
         }
-        this.props.hideLoading();
       }
-      this.props.hideLoading();
-
     })
 
-    AsyncStorageHelper._retrieveData('language').then(value => {
+    await AsyncStorageHelper._retrieveData('language').then(value => {
       if (value !== null) {
         this.props.changeLanguage(value);
       }
@@ -58,6 +54,7 @@ export class Main extends Component {
     console.log(this.props);
     let language = this.props.language;
     I18n.locale = language;
+    
     return (
       <View style={styles.container}>
         {
