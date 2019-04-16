@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-    View, Text, StyleSheet, FlatList
+    View, Text, StyleSheet, FlatList, TouchableOpacity
 } from 'react-native'
 import { sizeFont, sizeHeight, sizeWidth } from '../helpers/size.helper'
 import Logout from '../component/logout'
@@ -11,18 +11,23 @@ import OneLine from '../component/oneline'
 
 class ItemMenu extends Component {
     render() {
+        const {navigation} = this.props
         const { icon, screen, title } = this.props.item;
         return (
             <View>
-                <View style={styles.container_item}>
-                    <View style={{ flexDirection: 'row', flex: 5 }}>
-                        <Icon name={icon} size={sizeFont(6)} color={PRIMARY_COLOR}></Icon>
-                        <Text style={styles.item_title}>{title}</Text>
+                <TouchableOpacity onPress={()=>{
+                    navigation.navigate(screen)
+                }}>
+                    <View style={styles.container_item}>
+                        <View style={{ flexDirection: 'row', flex: 5 }}>
+                            <Icon name={icon} size={sizeFont(6)} color={PRIMARY_COLOR}></Icon>
+                            <Text style={styles.item_title}>{title}</Text>
+                        </View>
+                        <View style={{ flex: 5, alignItems: 'flex-end', marginRight: sizeWidth(3) }}>
+                            <Icon name={'chevron-right'} size={sizeFont(6)} color={PRIMARY_COLOR}></Icon>
+                        </View>
                     </View>
-                    <View style={{ flex: 5, alignItems: 'flex-end', marginRight: sizeWidth(3) }}>
-                        <Icon name={'chevron-right'} size={sizeFont(6)} color={PRIMARY_COLOR}></Icon>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 <OneLine color={PRIMARY_COLOR} />
             </View>
         )
@@ -32,26 +37,21 @@ class ItemMenu extends Component {
 export default class Profile extends Component {
     render() {
         const menu = [
-            {
-                title: 'List Customer',
-                icon: 'list-alt',
-                screen : ''
-            },
-            {
-                title: 'List Customer',
-                icon: 'list-alt',
-                screen : ''
-            }
+            // {
+            //     title: 'Driver Schedule',
+            //     icon: 'list-alt',
+            //     screen: 'Schedule'
+            // },
         ]
         return (
             <View style={styles.container}>
                 <HeaderNav iconLeft='bars'
+                    title = "Profile"
                     actionLeft={() => { this.props.navigation.openDrawer() }} />
                 <View style={styles.container_menu_view}>
                     <FlatList
                         data={menu}
-                        renderItem={({ item }) => (<ItemMenu item={item} />)}
-                    
+                        renderItem={({ item }) => (<ItemMenu item={item} navigation={this.props.navigation}/>)}
                     >
 
                     </FlatList>

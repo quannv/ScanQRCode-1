@@ -16,6 +16,7 @@
     "react-native-facebook-account-kit": "1.0.0",
     "react-native-i18n": "^2.0.15",
     "react-native-keyboard-aware-scroll-view": "^0.7.4",
+    "react-native-modal-datetime-picker": "^6.1.0",
     "react-native-vector-icons": "^6.3.0",
     "react-navigation": "^2.14.2",
     "react-redux": "^5.1.1",

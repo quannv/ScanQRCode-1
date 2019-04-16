@@ -43,3 +43,17 @@ export const check_token = async (token) => {
   let res = await RequestHelper.post(url, params);
   return res;
 }
+
+export const get_schedule = async (driver_id, date) => {
+  let url = appConfig.apiUrl + 'rest/driver_schedule';
+  let params = {driver_id,  date }
+  let res = await RequestHelper.get(url, params);
+  return res;
+}
+
+export const get_order_customer = async (bustrip_id, date) => {
+  let url = appConfig.apiUrl + 'rest/all_customer_order';
+  let params = {bustrip_id : bustrip_id, date: date};
+  let res = await RequestHelper.get(url, params);
+  return res;
+}

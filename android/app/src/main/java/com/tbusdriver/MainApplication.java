@@ -3,6 +3,10 @@ package com.tbusdriver;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import io.underscope.react.fbak.RNAccountKitPackage;
+import com.wix.RNCameraKit.RNCameraKitPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;

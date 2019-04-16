@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-    View, Text, StyleSheet, SafeAreaView, TouchableOpacity
+    View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Platform
 } from 'react-native'
 import { sizeFont, sizeHeight, sizeWidth } from '../helpers/size.helper'
 import { PRIMARY_COLOR } from '../config/app.config'
@@ -28,7 +28,7 @@ export default class headerNav extends Component {
                     >
                     {
                         iconRight ? 
-                        <Icon name={iconRight} size={sizeFont(6)} color={PRIMARY_COLOR}></Icon>
+                        <Icon name={iconRight} size={sizeFont(5)} color={PRIMARY_COLOR}></Icon>
                         : 
                         <View></View>
                     }
@@ -44,15 +44,16 @@ const styles = StyleSheet.create({
         width : sizeWidth(100),
         flexDirection: 'row',
         alignItems: 'center',
+        marginBottom:  `${Platform.OS == 'ios'}` ? sizeHeight(3) : 0,
     },
     title: {
-        flex:1,
+        flex:2,
         flexDirection: 'row',
         justifyContent:'center',
         
     },
     text_title:{
-        fontSize: sizeFont(5),
+        fontSize: sizeFont(4),
         color: `${PRIMARY_COLOR}`,
         fontWeight: 'normal',
     },
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
     right: {
         flex:1,
         justifyContent: 'flex-end',
+        alignItems : 'flex-end',
         paddingRight: sizeWidth(4),
     }
 })

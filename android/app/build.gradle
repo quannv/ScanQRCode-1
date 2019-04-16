@@ -146,6 +146,10 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-i18n')
+    compile project(':react-native-facebook-account-kit')
+    compile project(':react-native-camera-kit')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-i18n')
     implementation project(':react-native-facebook-account-kit')

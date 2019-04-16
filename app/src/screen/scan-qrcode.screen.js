@@ -4,42 +4,51 @@ import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import iconBack from "../../res/img/ic_left_arrow.png";
 import { sizeWidth } from "../helpers/size.helper";
 import { CameraKitCamera, CameraKitCameraScreen } from 'react-native-camera-kit'
+import Header from '../component/headerNav'
 
 export default class ScanQRCodeScreen extends Component {
-
-  async  componentWillMount() {
-    const isCameraAuthorized = await CameraKitCamera.checkDeviceCameraAuthorizationStatus();
-    console.log(isCameraAuthorized);
-    if (isCameraAuthorized === -1) {
-      const isUserAuthorizedCamera = await CameraKitCamera.requestDeviceCameraAuthorization();
+  constructor(props) {
+    super(props);
+    this.state = {
+      isScan: true
     }
   }
+
+  async componentWillMount() {
+    this.setState({
+      isScan: true
+    })
+
+  }
+
   onSuccess(e) {
     const onQRCode = this.props.navigation.getParam("onQRCode");
     if (onQRCode) {
       onQRCode(e.nativeEvent.codeStringValue);
-      this.props.navigation.goBack();
     }
+    this.props.navigation.goBack();
   }
 
   render() {
     return (
-      <CameraKitCameraScreen
-        scanBarcode={true}
-        onReadCode={this.onSuccess.bind(this)}
-        colorForScannerFrame={'black'}
-        topContent={
-          <View style={styles.viewImage}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Image
-                source={iconBack}
-                style={styles.imageBack}
-                resizeMode={"contain"}
-              />
-            </TouchableOpacity>
-          </View>
-        }
-      />
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Header
+          iconLeft='arrow-left'
+          actionLeft={() => { this.props.navigation.goBack() }}
+        />
+        <CameraKitCameraScreen
+          scanBarcode={true}
+          onReadCode={(e) => {
+            if (this.state.isScan) {
+              this.onSuccess(e); 
+            }
+            this.setState({ isScan: false })
+          }
+
+          }
+          colorForScannerFrame={'black'}
+        />
+      </View>
     );
   }
 }

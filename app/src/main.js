@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, StatusBar } from "react-native";
 import AppNavigator from "./navigators/app.navigator";
 import { setTopLevelNavigator } from "./actions/nav.action";
 import LoadingView from "./component/loading";
@@ -13,6 +13,7 @@ import LoginScreen from './screen/login.screen'
 import { check_token } from './api/api'
 import { USER_STATUS, setUserStatus } from './actions/userStatus.action'
 import { showLoading, hideLoading } from './actions/loading.action'
+import { CameraKitCamera } from 'react-native-camera-kit'
 export class Main extends Component {
   constructor(props) {
     super(props);
@@ -22,11 +23,24 @@ export class Main extends Component {
   }
   async componentWillMount() {
     //AsyncStorageHelper._removeData('language');
+    const isCameraAuthorized = await CameraKitCamera.checkDeviceCameraAuthorizationStatus();
+    if (isCameraAuthorized == -1) {
+      await CameraKitCamera.requestDeviceCameraAuthorization();
+    }
+
     this.props.showLoading();
     let userData = await AsyncStorageHelper._retrieveData('userData').then(val => {
       console.log(JSON.parse(val));
     }
     );
+    await AsyncStorageHelper._retrieveData('language').then(value => {
+      if (value !== null) {
+        this.props.changeLanguage(value);
+      }
+      this.setState({ isLoading: false })
+    })
+
+
     await AsyncStorageHelper._retrieveData('token').then(async token => {
       if (token !== null) {
         let res = await check_token(token);
@@ -40,23 +54,16 @@ export class Main extends Component {
         }
       }
     })
-
-    await AsyncStorageHelper._retrieveData('language').then(value => {
-      if (value !== null) {
-        this.props.changeLanguage(value);
-      }
-      this.setState({ isLoading: false })
-    })
     this.props.hideLoading();
-
   }
   render() {
     console.log(this.props);
     let language = this.props.language;
     I18n.locale = language;
-    
+
     return (
       <View style={styles.container}>
+        <StatusBar barStyle='light-content'></StatusBar>
         {
           this.state.isLoading ?
             <View style={{ marginTop: 20 }}>

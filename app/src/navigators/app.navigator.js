@@ -1,6 +1,6 @@
 import React from 'react'
 import { createDrawerNavigator} from 'react-navigation'
-import LoginStack from './loginStack'
+import ScheduleStack from './scheduleStack'
 import MainStack from './mainStack'
 import ProfileStack from './profileStack'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -21,13 +21,13 @@ const AppDrawer = createDrawerNavigator({
       )
     }
   },
-  Profile : {
-    screen : ProfileStack,
+  Schedule : {
+    screen : ScheduleStack,
     navigationOptions: {
-      title : 'Profile',
+      title : 'Schedule',
       drawerIcon: ({ focused, tintColor }) => (
         <Icon 
-          name ='bus'
+          name ='list-alt'
           resizeMode="contain"
           size = {sizeFont(6)}
           color = {focused ? PRIMARY_COLOR : 'gray'}
@@ -35,13 +35,13 @@ const AppDrawer = createDrawerNavigator({
       )
     }
   },
-  Login : {
-    screen : LoginStack,
+  Profile : {
+    screen : ProfileStack,
     navigationOptions: {
-      title : 'Logout',
+      title : 'Profile',
       drawerIcon: ({ focused, tintColor }) => (
         <Icon 
-          name ='power-off'
+          name ='id-badge'
           resizeMode="contain"
           size = {sizeFont(6)}
           color = {focused ? PRIMARY_COLOR : 'gray'}
