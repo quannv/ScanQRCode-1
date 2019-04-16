@@ -63,7 +63,7 @@ export class Main extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle='light-content'></StatusBar>
+        <StatusBar backgroundColor={PRIMARY_COLOR} barStyle='light-content'></StatusBar>
         {
           this.state.isLoading ?
             <View style={{ marginTop: 20 }}>
