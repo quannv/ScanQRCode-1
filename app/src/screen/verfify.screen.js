@@ -9,10 +9,10 @@ import {
   TouchableWithoutFeedback,
   Button
 } from "react-native";
-import { sizeFont, sizeWidth, sizeHeight} from "../helpers/size.helper";
+import { sizeFont, sizeWidth, sizeHeight } from "../helpers/size.helper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect } from "react-redux";
-import { verify, getConfig} from "../api/api";
+import { verify, getConfig } from "../api/api";
 import { PRIMARY_COLOR } from '../config/app.config'
 import Icon from 'react-native-vector-icons/FontAwesome5Pro'
 import {
@@ -21,32 +21,55 @@ import {
 } from "../actions/loading.action";
 import _ from "lodash";
 import Header from '../component/headerNav'
-import {lang} from '../language/index'
+import { lang } from '../language/index'
+import AsyncStorageHelper from '../helpers/asyncstorage.helper'
+
 class VerifyScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { code: null, currency : '$' };
+    this.state = { code: null, currency: '$', company_name : '', userData : '' };
   }
-  
-  componentWillMount () {
-   //AsyncStorageHelper._retrieveData('language').then(a=>{console.log(a);});
-   
+
+   componentWillMount() {
+     this.props.showLoading();
+    AsyncStorageHelper._retrieveData('userData').then( async userData=>{
+      let userJson = JSON.parse(userData);
+      let name_driver = userJson.firstname + ' ' + userJson.lastname;
+      let agent_info = await getConfig(userJson.cid);
+      if(agent_info.status == 'ok') {
+        
+        let company_info = agent_info.data.agent_info;
+        this.setState({
+          company_name : company_info.company,
+          userData : name_driver
+        })
+      }
+      
+      
+    });
+    this.props.hideLoading();
   }
   render() {
+    console.log(this.state);
+    
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
-          <Header 
-            iconLeft = 'bars'
-            actionLeft = {()=> {this.props.navigation.openDrawer()}}
+          <Header
+            title = {this.state.company_name}
+            iconLeft='bars'
+            actionLeft={() => { this.props.navigation.openDrawer() }}
           />
           <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
             <View style={{ alignItems: "center" }}>
               <View style={styles.header}>
-                <Icon name='steering-wheel' size={sizeFont(8)} color={PRIMARY_COLOR}></Icon>
+                <Icon name='steering-wheel' size={sizeFont(6)} color={PRIMARY_COLOR}></Icon>
                 <Text style={styles.title}>TBUS Driver</Text>
               </View>
-
+              <View style={styles.driver_info}>
+                <Icon name='id-card' size={sizeFont(5)} color={PRIMARY_COLOR}></Icon>
+                <Text style={{fontSize : sizeFont(4), marginLeft: sizeWidth(5)}}>{this.state.userData}</Text>
+              </View>
               <TouchableOpacity
                 style={styles.viewButtonScanQrcode}
                 activeOpacity={0.6}
@@ -127,7 +150,7 @@ class VerifyScreen extends Component {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white", alignItems: "center" },
-  header : {
+  header: {
     marginTop: sizeWidth(2),
     alignItems: 'center'
   },
@@ -138,7 +161,6 @@ const styles = StyleSheet.create({
     marginTop: sizeWidth(2)
   },
   viewButtonScanQrcode: {
-    marginTop: sizeWidth(15),
     width: sizeWidth(45),
     height: sizeWidth(35),
     borderRadius: sizeWidth(3),
@@ -187,6 +209,13 @@ const styles = StyleSheet.create({
     fontSize: sizeFont(5),
     fontWeight: "bold",
     color: "white"
+  },
+  driver_info : {
+    flexDirection : 'row',
+    justifyContent : 'center',
+    alignItems : 'center',
+    marginTop : sizeHeight(3),
+    marginBottom: sizeHeight(3),
   }
 });
 

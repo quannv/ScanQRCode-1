@@ -4,16 +4,16 @@ import { appConfig } from "../config/app.config";
 export const verify = (orderNumber, agentId) => {
   return RequestHelper.get(
     appConfig.apiUrl +
-      `rest/order_detail?order_number=${orderNumber}&agent_id=${agentId}`
+      `order_detail?order_number=${orderNumber}&agent_id=${agentId}`
   );
 };
 
 export const checkIn = body => {
-  return RequestHelper.post(appConfig.apiUrl + "rest/checkin", { ...body });
+  return RequestHelper.post(appConfig.apiUrl + "checkin", { ...body });
 };
 
-export const getConfig = () => {
-  return RequestHelper.get(appConfig.apiUrl+ "rest/config?agent_id=13",null);
+export const getConfig = (agent_id = 13) => {
+  return RequestHelper.get(appConfig.apiUrl+ "config?agent_id="+agent_id);
 }
 
 export const check_token_account_kit = async (token) => {
@@ -25,7 +25,7 @@ export const check_token_account_kit = async (token) => {
 }
 
 export const login = async (phone) => {
-  let url = appConfig.apiUrl + 'rest/loginphonedriver';
+  let url = appConfig.apiUrl + 'loginphonedriver';
   let params = {
     type : 'login',
     phone : phone
@@ -35,7 +35,7 @@ export const login = async (phone) => {
 }
 
 export const check_token = async (token) => {
-  let url = appConfig.apiUrl + 'rest/loginphonedriver';
+  let url = appConfig.apiUrl + 'loginphonedriver';
   let params = {
     type : 'check_token',
     token : token
@@ -45,14 +45,14 @@ export const check_token = async (token) => {
 }
 
 export const get_schedule = async (driver_id, date) => {
-  let url = appConfig.apiUrl + 'rest/driver_schedule';
+  let url = appConfig.apiUrl + 'driver_schedule';
   let params = {driver_id,  date }
   let res = await RequestHelper.get(url, params);
   return res;
 }
 
 export const get_order_customer = async (bustrip_id, date) => {
-  let url = appConfig.apiUrl + 'rest/all_customer_order';
+  let url = appConfig.apiUrl + 'all_customer_order';
   let params = {bustrip_id : bustrip_id, date: date};
   let res = await RequestHelper.get(url, params);
   return res;

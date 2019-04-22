@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         marginBottom:  `${Platform.OS == 'ios'}` ? sizeHeight(3) : 0,
     },
     title: {
-        flex:2,
+        flex:3,
         flexDirection: 'row',
         justifyContent:'center',
         
